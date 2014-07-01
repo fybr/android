@@ -55,7 +55,6 @@ public class Cover extends Activity implements GoogleApiClient.ConnectionCallbac
     @Override
     public void onConnected(Bundle bundle) {
         Log.i("", "Connected " + Plus.AccountApi.getAccountName(_client));
-        Boot.Start(this);
         this.finish();
     }
 
