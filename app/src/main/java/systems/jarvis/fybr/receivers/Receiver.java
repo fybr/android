@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
-/**
- * Created by Dharun on 7/1/2014.
- */
 public abstract class Receiver extends BroadcastReceiver {
 
     public Receiver() {

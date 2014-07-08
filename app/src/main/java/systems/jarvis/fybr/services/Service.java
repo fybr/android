@@ -3,9 +3,6 @@ package systems.jarvis.fybr.services;
 import android.app.IntentService;
 import android.content.Intent;
 
-/**
- * Created by Dharun on 7/1/2014.
- */
 public class Service extends IntentService {
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.

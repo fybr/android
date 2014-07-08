@@ -11,6 +11,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
+import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.receivers.Boot;
 
 
@@ -28,24 +29,21 @@ public class Cover extends Activity implements GoogleApiClient.ConnectionCallbac
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+        _client.disconnect();
         final Activity dis = this;
+        _client.connect();
+
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(_resolve != null) {
                     try {
                         _resolve.startResolutionForResult(dis, 1);
-                        _resolve = null;
                     } catch (IntentSender.SendIntentException e) {
 
                     }
                 }
-                else {
-                    _client.connect();
-                }
             }
         });
-
-        _client.connect();
 
     }
 
@@ -54,13 +52,23 @@ public class Cover extends Activity implements GoogleApiClient.ConnectionCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.i("", "Connected " + Plus.AccountApi.getAccountName(_client));
+        if(_resolve == null) {
+            Log.i("Auth", "Cleared" );
+            Plus.AccountApi.clearDefaultAccount(_client);
+            _client.disconnect();
+            _client.connect();
+            return;
+        }
+        Log.i("Auth", "Connected" );
+        String token =Plus.AccountApi.getAccountName(_client);
+        new Api(this).setToken(token);
         this.finish();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i("Auth", Integer.toString(requestCode));
         switch (requestCode) {
             case 1:
                 _client.connect();
@@ -75,8 +83,7 @@ public class Cover extends Activity implements GoogleApiClient.ConnectionCallbac
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
+        Log.i("Auth", "Failed");
         _resolve = result;
-        Log.i("", "Failed");
-
     }
 }
