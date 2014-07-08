@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -35,6 +37,9 @@ public class Api {
     }
 
     public void post(Object o) {
+        Gson gson = new Gson();
+        String json = gson.toJson(o);
+        Log.i("Http", json);
 
     }
 

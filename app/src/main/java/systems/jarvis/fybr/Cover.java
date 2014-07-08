@@ -53,13 +53,11 @@ public class Cover extends Activity implements GoogleApiClient.ConnectionCallbac
     @Override
     public void onConnected(Bundle bundle) {
         if(_resolve == null) {
-            Log.i("Auth", "Cleared" );
             Plus.AccountApi.clearDefaultAccount(_client);
             _client.disconnect();
             _client.connect();
             return;
         }
-        Log.i("Auth", "Connected" );
         String token =Plus.AccountApi.getAccountName(_client);
         new Api(this).setToken(token);
         this.finish();
@@ -68,7 +66,6 @@ public class Cover extends Activity implements GoogleApiClient.ConnectionCallbac
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("Auth", Integer.toString(requestCode));
         switch (requestCode) {
             case 1:
                 _client.connect();
@@ -83,7 +80,6 @@ public class Cover extends Activity implements GoogleApiClient.ConnectionCallbac
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.i("Auth", "Failed");
         _resolve = result;
     }
 }

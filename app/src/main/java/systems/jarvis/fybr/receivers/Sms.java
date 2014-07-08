@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.provider.Telephony;
 import android.util.Log;
 
+import systems.jarvis.fybr.providers.Api;
+import systems.jarvis.fybr.providers.SmsModel;
+
 public class Sms extends Receiver {
 
     @Override
@@ -12,7 +15,7 @@ public class Sms extends Receiver {
         if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) {
             for (android.telephony.SmsMessage sms : Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
                 String messageBody =  sms.getOriginatingAddress() + " - " + sms.getMessageBody();
-                Log.i("", messageBody);
+                Log.i("Sms", messageBody);
             }
         }
     }
