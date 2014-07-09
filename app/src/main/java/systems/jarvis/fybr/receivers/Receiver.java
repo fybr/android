@@ -3,8 +3,12 @@ package systems.jarvis.fybr.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.util.Log;
+
+import com.google.gson.Gson;
+
+import systems.jarvis.fybr.providers.Model;
+import systems.jarvis.fybr.services.PostService;
 
 public abstract class Receiver extends BroadcastReceiver {
 
@@ -18,5 +22,12 @@ public abstract class Receiver extends BroadcastReceiver {
     }
 
     protected abstract void execute(Context context, Intent intent);
+
+    protected void post(Context context, Model model) {
+        Gson gson = new Gson();
+        Intent i = new Intent(context, PostService.class);
+        i.putExtra("model", gson.toJson(model));
+        context.startService(i);
+    }
 
 }

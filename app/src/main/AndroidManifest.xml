@@ -40,10 +40,9 @@
             android:name=".Cover"
             android:label="@string/title_activity_dashboard" >
         </activity>
-        <activity
-            android:name=".Base"
-            android:label="@string/title_activity_authenticated" >
-        </activity>
+
+        <service android:name=".services.PostService" />
+
     </application>
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />

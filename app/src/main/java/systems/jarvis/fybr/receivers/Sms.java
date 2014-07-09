@@ -3,9 +3,7 @@ package systems.jarvis.fybr.receivers;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Telephony;
-import android.util.Log;
 
-import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.providers.SmsModel;
 
 public class Sms extends Receiver {
@@ -14,8 +12,10 @@ public class Sms extends Receiver {
     public void execute(Context context, Intent intent) {
         if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) {
             for (android.telephony.SmsMessage sms : Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
-                String messageBody =  sms.getOriginatingAddress() + " - " + sms.getMessageBody();
-                Log.i("Sms", messageBody);
+                SmsModel model = new SmsModel();
+                model.message = sms.getMessageBody();
+                model.sender = sms.getOriginatingAddress();
+                this.post(context, model);
             }
         }
     }
