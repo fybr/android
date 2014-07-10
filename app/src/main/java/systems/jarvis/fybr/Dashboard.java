@@ -5,12 +5,15 @@ import android.content.IntentSender;
 import android.view.View;
 
 import systems.jarvis.fybr.providers.Api;
+import systems.jarvis.fybr.receivers.Boot;
 
 public class Dashboard extends Base {
 
     @Override
-    public void onConnect(final Api api) {
+    public void onConnect(final Api api, String token) {
         setContentView(R.layout.activity_dashboard);
+
+        Boot.StartServices(this);
 
 
         findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {

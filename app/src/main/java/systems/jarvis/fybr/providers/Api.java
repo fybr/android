@@ -33,7 +33,7 @@ public class Api {
         }
         Log.i("Auth", _token);
         _http = new DefaultHttpClient();
-        cb.onConnect(this);
+        cb.onConnect(this, _token);
     }
 
     public void post(Object o) {
@@ -51,7 +51,7 @@ public class Api {
 
     public interface ApiCallback {
 
-        public void onConnect(Api api);
+        public void onConnect(Api api, String token);
 
         public void onDisconnect(Api api);
     }

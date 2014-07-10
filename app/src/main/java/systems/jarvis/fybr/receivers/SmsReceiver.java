@@ -4,17 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Telephony;
 
-import systems.jarvis.fybr.providers.SmsModel;
+import systems.jarvis.fybr.providers.Sms;
 
-public class Sms extends Receiver {
+public class SmsReceiver extends Receiver {
 
     @Override
     public void execute(Context context, Intent intent) {
         if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) {
             for (android.telephony.SmsMessage sms : Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
-                SmsModel model = new SmsModel();
-                model.message = sms.getMessageBody();
-                model.sender = sms.getOriginatingAddress();
+                Sms model = new Sms();
+                model.message = sms.getDisplayMessageBody();
+                model.sender = sms.getDisplayOriginatingAddress();
+                model.thread = model.sender;
                 this.post(context, model);
             }
         }

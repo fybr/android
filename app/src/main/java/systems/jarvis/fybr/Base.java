@@ -20,7 +20,7 @@ public abstract class Base extends Activity implements Api.ApiCallback {
     }
 
     @Override
-    public abstract void onConnect(Api api);
+    public abstract void onConnect(Api api, String token);
 
     @Override
     public void onDisconnect(Api api) {

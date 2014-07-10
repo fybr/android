@@ -1,19 +1,19 @@
 package systems.jarvis.fybr.receivers;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
-import systems.jarvis.fybr.receivers.Sms;
+import systems.jarvis.fybr.services.SmsService;
 
-public class Boot extends BroadcastReceiver {
+public class Boot extends Receiver {
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-
+    protected void execute(Context context, Intent intent) {
+        StartServices(context);
     }
 
-
-
+    public static void StartServices(Context context) {
+        Intent i = new Intent(context, SmsService.class);
+        context.startService(i);
+    }
 }
