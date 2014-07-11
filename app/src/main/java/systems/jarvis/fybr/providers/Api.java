@@ -49,6 +49,16 @@ public class Api {
         editor.commit();
     }
 
+    public void setPush(String id) {
+        SharedPreferences.Editor editor = _preferences.edit();
+        editor.putString("pushId", id);
+        editor.commit();
+    }
+
+    public String getPush() {
+        return _preferences.getString("pushId", "");
+    }
+
     public interface ApiCallback {
 
         public void onConnect(Api api, String token);

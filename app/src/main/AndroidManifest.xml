@@ -32,8 +32,19 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".receivers.PushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
 
         <service android:name=".services.PostService" />
+        <service android:name=".services.SmsService" android:enabled="true" android:exported="true" ></service>
+        <service android:name=".services.PushService" android:enabled="true" android:exported="true" ></service>
+
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -43,11 +54,6 @@
             android:minSdkVersion="15"
             android:targetSdkVersion="15" />
 
-        <service
-            android:name=".services.SmsService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
     </application>
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -56,5 +62,15 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <permission
+        android:name="systems.jarvis.fybr.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="systems.jarvis.fybr.permission.C2D_MESSAGE" />
 
 </manifest>

