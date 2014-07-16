@@ -56,7 +56,7 @@ public class SmsService extends Service {
 
                     Sms model = new Sms();
                     model.message = cursor.getString(bodyColumn);
-                    model.sender = "me";
+                    model.from = "me";
                     model.thread = cursor.getString(addressColumn).replaceAll("[\\s\\(\\)\\-]", "");
                     post(service, model);
 

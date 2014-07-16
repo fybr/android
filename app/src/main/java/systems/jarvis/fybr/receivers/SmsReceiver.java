@@ -14,8 +14,8 @@ public class SmsReceiver extends Receiver {
             for (android.telephony.SmsMessage sms : Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
                 Sms model = new Sms();
                 model.message = sms.getDisplayMessageBody();
-                model.sender = sms.getDisplayOriginatingAddress();
-                model.thread = model.sender;
+                model.from = sms.getDisplayOriginatingAddress();
+                model.thread = model.from;
                 this.post(context, model);
             }
         }

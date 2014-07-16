@@ -4,15 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
-import systems.jarvis.fybr.providers.Api;
-import systems.jarvis.fybr.receivers.Boot;
+import systems.jarvis.fybr.providers.Auth;
 
 
 public class Cover extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -58,8 +56,8 @@ public class Cover extends Activity implements GoogleApiClient.ConnectionCallbac
             _client.connect();
             return;
         }
-        String token =Plus.AccountApi.getAccountName(_client);
-        new Api(this).setToken(token);
+        String email = Plus.AccountApi.getAccountName(_client);
+        new Auth(this).setEmail(email);
         this.finish();
     }
 

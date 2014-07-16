@@ -1,51 +1,39 @@
 package systems.jarvis.fybr.providers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import systems.jarvis.fybr.R;
-
-public class Api {
+public class Auth {
 
     private Context _context;
     private SharedPreferences _preferences;
-    private String _token;
+    private String email;
     private HttpClient _http;
 
-    public Api(Context context) {
+    public Auth(Context context) {
         _context = context;
         _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
     }
 
-    public void connect(ApiCallback cb) {
-        _token = _preferences.getString(_context.getString(R.string.preferenceToken), "");
-        if(_token.equalsIgnoreCase("")) {
+    public void connect(AuthCallback cb) {
+        email = _preferences.getString("email", "");
+        if(email.equalsIgnoreCase("")) {
             cb.onDisconnect(this);
             return;
         }
-        Log.i("Auth", _token);
+        Log.i("Auth", email);
         _http = new DefaultHttpClient();
-        cb.onConnect(this, _token);
+        cb.onConnect(this, email);
     }
 
-    public void post(Object o) {
-        Gson gson = new Gson();
-        String json = gson.toJson(o);
-        Log.i("Http", json);
-
-    }
-
-    public void setToken(String token) {
+    public void setEmail(String email) {
         SharedPreferences.Editor editor = _preferences.edit();
-        editor.putString(_context.getString(R.string.preferenceToken), token);
+        editor.putString("email", email);
         editor.commit();
     }
 
@@ -59,11 +47,13 @@ public class Api {
         return _preferences.getString("pushId", "");
     }
 
-    public interface ApiCallback {
+    public String id = "";
 
-        public void onConnect(Api api, String token);
+    public interface AuthCallback {
 
-        public void onDisconnect(Api api);
+        public void onConnect(Auth auth, String user);
+
+        public void onDisconnect(Auth auth);
     }
 
 }

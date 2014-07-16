@@ -7,7 +7,7 @@ public class Sms extends Model {
 
     public String message;
 
-    public String sender;
+    public String from;
 
     public String thread;
 }

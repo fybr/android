@@ -1,16 +1,15 @@
 package systems.jarvis.fybr;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.view.View;
 
-import systems.jarvis.fybr.providers.Api;
+import systems.jarvis.fybr.providers.Auth;
 import systems.jarvis.fybr.receivers.Boot;
 
 public class Dashboard extends Base {
 
     @Override
-    public void onConnect(final Api api, String token) {
+    public void onConnect(final Auth auth, String token) {
         setContentView(R.layout.activity_dashboard);
 
         Boot.StartServices(this);
@@ -18,7 +17,8 @@ public class Dashboard extends Base {
 
         findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                api.setToken("");
+                auth.setEmail("");
+                auth.setPush("");
                 logout();
             }
         });

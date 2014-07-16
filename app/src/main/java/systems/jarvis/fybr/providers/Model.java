@@ -10,6 +10,4 @@ public abstract class Model {
 
     public String type;
 
-    public String token;
-
 }
