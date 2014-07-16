@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.providers.Auth;
 
 public abstract class Base extends Activity implements Auth.AuthCallback {
@@ -18,10 +19,10 @@ public abstract class Base extends Activity implements Auth.AuthCallback {
     }
 
     @Override
-    public abstract void onConnect(Auth auth, String token);
+    public abstract void onConnect(Auth auth, Api token);
 
     @Override
-    public void onDisconnect(Auth auth) {
+    public void onFail(Auth auth) {
         Intent i = new Intent(this, Cover.class);
         startActivityForResult(i, 1);
     }

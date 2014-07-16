@@ -13,7 +13,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CONNECT WITH GOOGLE+"
+        android:text="CONNECT"
         android:id="@+id/login"
         android:layout_marginBottom="15dp"
         android:textColor="#FFFFFF"

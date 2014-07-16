@@ -11,6 +11,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
 
+import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.providers.Auth;
 
 public class PushService extends Service {
@@ -24,7 +25,7 @@ public class PushService extends Service {
         final Context app = this.getApplicationContext();
         _auth.connect(new Auth.AuthCallback() {
             @Override
-            public void onConnect(final Auth auth, String token) {
+            public void onConnect(final Auth auth, Api token) {
                 new AsyncTask() {
                     @Override
                     protected String doInBackground(Object[] params) {
@@ -42,7 +43,7 @@ public class PushService extends Service {
             }
 
             @Override
-            public void onDisconnect(Auth auth) {
+            public void onFail(Auth auth) {
 
             }
         });
