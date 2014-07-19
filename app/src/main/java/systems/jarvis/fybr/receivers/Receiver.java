@@ -24,12 +24,5 @@ public abstract class Receiver extends BroadcastReceiver {
 
     protected abstract void execute(Context context, Intent intent);
 
-    protected void post(Context context, Model model) {
-        Gson gson = new Gson();
-        Intent i = new Intent(context, PostService.class);
-        i.putExtra("model", gson.toJson(model));
-        i.putExtra("type", model.type);
-        context.startService(i);
-    }
 
 }

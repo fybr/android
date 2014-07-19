@@ -20,33 +20,23 @@ public class PushService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String id = _auth.getPush();
-        if(id.length() != 0) return 0;
         final Context app = this.getApplicationContext();
-        _auth.connect(new Auth.AuthCallback() {
+        final Api api = _auth.connect();
+        if(api == null) return 0;
+        new AsyncTask() {
             @Override
-            public void onConnect(final Auth auth, Api token) {
-                new AsyncTask() {
-                    @Override
-                    protected String doInBackground(Object[] params) {
-                        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(app);
-                        try {
-                            String id = gcm.register("487325715729");
-                            auth.setPush(id);
-                            Log.i("Push", id);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return "";
-                    }
-                }.execute(null, null, null);
+            protected String doInBackground(Object[] params) {
+                GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(app);
+                try {
+                    String id = gcm.register("487325715729");
+                    Log.i("Push", id);
+                    api.post("users/devices", id);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return "";
             }
-
-            @Override
-            public void onFail(Auth auth) {
-
-            }
-        });
+        }.execute(null, null, null);
 
         return 0;
     }

@@ -24,17 +24,9 @@ public class Cover extends Activity {
         final Activity dis = this;
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new Auth(dis).login("", "").connect(new Auth.AuthCallback() {
-                    @Override
-                    public void onConnect(Auth auth, Api user) {
-                        dis.finish();
-                    }
-
-                    @Override
-                    public void onFail(Auth auth) {
-
-                    }
-                });
+                Api api = new Auth(dis).login("dharun@ly.ht", "lol").connect();
+                if(api != null)
+                    dis.finish();
             }
         });
     }

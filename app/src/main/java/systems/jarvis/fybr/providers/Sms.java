@@ -10,4 +10,5 @@ public class Sms extends Model {
     public String from;
 
     public String thread;
+
 }

@@ -9,25 +9,23 @@ import systems.jarvis.fybr.receivers.Boot;
 
 public class Dashboard extends Base {
 
-    @Override
-    public void onConnect(final Auth auth, Api token) {
-        setContentView(R.layout.activity_dashboard);
-
-        Boot.StartServices(this);
-
-
-        findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                auth.logout();
-                auth.setPush("");
-                logout();
-            }
-        });
-    }
-
     private void logout() {
         this.finish();
         Intent i = new Intent(this, Dashboard.class);
         startActivity(i);
+    }
+
+    @Override
+    public void ready() {
+        setContentView(R.layout.activity_dashboard);
+
+        Boot.StartServices(this);
+
+        findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                _auth.logout();
+                logout();
+            }
+        });
     }
 }

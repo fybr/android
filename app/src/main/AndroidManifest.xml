@@ -44,6 +44,7 @@
         <service android:name=".services.PostService" />
         <service android:name=".services.SmsService" android:enabled="true" android:exported="true" ></service>
         <service android:name=".services.PushService" android:enabled="true" android:exported="true" ></service>
+        <service android:name=".services.ContactService" android:enabled="true" android:exported="true" ></service>
 
 
         <meta-data
@@ -66,6 +67,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <permission
         android:name="systems.jarvis.fybr.permission.C2D_MESSAGE"

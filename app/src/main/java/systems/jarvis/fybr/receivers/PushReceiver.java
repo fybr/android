@@ -19,7 +19,7 @@ public class PushReceiver extends WakefulBroadcastReceiver {
                 String number = intent.getStringExtra("number");
                 String message = intent.getStringExtra("message");
                 SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(number, null, message, null, null);
+                smsManager.sendMultipartTextMessage(number, null,smsManager.divideMessage(message), null, null);
             }
         }
         catch (Exception e) {

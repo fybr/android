@@ -7,28 +7,32 @@ import android.os.Bundle;
 import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.providers.Auth;
 
-public abstract class Base extends Activity implements Auth.AuthCallback {
+public abstract class Base extends Activity {
 
     protected Auth _auth;
+    protected Api _api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _auth = new Auth(this);
-        _auth.connect(this);
+        connect();
     }
 
-    @Override
-    public abstract void onConnect(Auth auth, Api token);
-
-    @Override
-    public void onFail(Auth auth) {
-        Intent i = new Intent(this, Cover.class);
-        startActivityForResult(i, 1);
+    private void connect() {
+        _auth = new Auth(this);
+        _api = _auth.connect();
+        if(_api == null) {
+            Intent i = new Intent(this, Cover.class);
+            startActivityForResult(i, 1);
+            return;
+        }
+        ready();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        _auth.connect(this);
+        connect();
     }
+
+    public abstract void ready();
 }
