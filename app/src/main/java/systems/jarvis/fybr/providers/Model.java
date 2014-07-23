@@ -8,7 +8,7 @@ public abstract class Model {
 
     public Model() {
         type = this.getClass().getSimpleName().toLowerCase();
-        id = UUID.randomUUID().toString();
+        id = System.currentTimeMillis() + "";
         created = new Date();
     }
 

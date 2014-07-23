@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -22,9 +23,20 @@ public class Cover extends Activity {
         setContentView(R.layout.activity_cover);
 
         final Activity dis = this;
+
+        final EditText email = (EditText)findViewById(R.id.email);
+        final EditText password = (EditText)findViewById(R.id.password);
+
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Api api = new Auth(dis).login("dharun@ly.ht", "lol").connect();
+                Api api = new Auth(dis).login(email.getText().toString(), password.getText().toString()).connect();
+                if(api != null)
+                    dis.finish();
+            }
+        });
+        findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Api api = new Auth(dis).register(email.getText().toString(), password.getText().toString()).connect();
                 if(api != null)
                     dis.finish();
             }

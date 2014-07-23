@@ -21,6 +21,12 @@ public class Dashboard extends Base {
 
         Boot.StartServices(this);
 
+        /*
+        Intent intent=new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+        startActivity(intent);
+        */
+
+
         findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 _auth.logout();

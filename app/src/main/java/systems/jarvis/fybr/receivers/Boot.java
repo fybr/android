@@ -15,6 +15,7 @@ public class Boot extends Receiver {
     }
 
     public static void StartServices(Context context) {
+
         {
             Intent i = new Intent(context, ContactService.class);
             context.startService(i);
@@ -29,5 +30,6 @@ public class Boot extends Receiver {
             Intent i = new Intent(context, PushService.class);
             context.startService(i);
         }
+
     }
 }

@@ -46,8 +46,11 @@ public class SmsService extends Service {
                 int addressColumn = cursor.getColumnIndex("address");
                 int threadColumn = cursor.getColumnIndex("thread_id");
                 int idColumn = cursor.getColumnIndex("_id");
+                String id =  cursor.getString(idColumn);
+                if(id.equals(_last))
+                    return null;
+                _last = id;
                 Sms model = new Sms();
-                model.id = cursor.getString(idColumn);
                 model.message = cursor.getString(bodyColumn);
                 model.from = "me";
                 model.thread = cursor.getString(addressColumn).replaceAll("[\\s\\(\\)\\-]", "").replaceAll("\\+\\d", "");
@@ -57,9 +60,7 @@ public class SmsService extends Service {
             @Override
             public void onChange(boolean selfChange, Uri uri) {
                 Sms model = getLast();
-                if(model.id.equals(_last))
-                    return;
-                _last = model.id;
+                if(model == null) return;
                 Api api = new Auth(service).connect();
                 if(api == null) return;
                 api.event(model);

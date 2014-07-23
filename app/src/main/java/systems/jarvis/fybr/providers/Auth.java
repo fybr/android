@@ -45,6 +45,11 @@ public class Auth {
         return this;
     }
 
+    public Auth register(String email, String password) {
+        this.setSession(new Api("", _context).register(email, password));
+        return this;
+    }
+
     public Auth logout() {
         this.setSession("");
         return this;

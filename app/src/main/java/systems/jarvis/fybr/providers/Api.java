@@ -31,6 +31,10 @@ public class Api {
         return postSync("users/login", "{ 'email' : '" + email + "', password : '" + password + "'}");
     }
 
+    public String register(String email, String password) {
+        return postSync("users", "{ 'email' : '" + email + "', password : '" + password + "'}");
+    }
+
     public String postSync(String path, String body) {
 
         try {

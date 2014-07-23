@@ -31,6 +31,7 @@ public class ContactService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
         Log.i("Service", "Contacts syncing");
         ContentResolver cr = getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
@@ -73,6 +74,7 @@ public class ContactService extends IntentService {
         }
 
         api.event(contacts, "contact");
+
 
     }
 

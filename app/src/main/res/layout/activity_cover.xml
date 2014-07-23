@@ -10,20 +10,74 @@
     android:background="#374249">
 
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="CONNECT"
-        android:id="@+id/login"
-        android:layout_marginBottom="15dp"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:background="#00FFFFFF"
-        android:padding="20dp"
-        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:enabled="true" />
+        android:id="@+id/linearLayout">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="106dp"
+            android:id="@+id/logo"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/logo"
+            android:layout_marginBottom="20dp" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/email"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignLeft="@+id/linearLayout"
+            android:layout_alignStart="@+id/linearLayout"
+            android:hint="Email"
+            android:autoText="false"
+            android:background="#272f34"
+            android:textColor="#FFFFFF"
+            android:padding="15dp"
+            android:textStyle="bold"
+            android:autoLink="email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/password"
+            android:hint="Password"
+            android:background="#272f34"
+            android:textColor="#FFFFFF"
+            android:padding="15dp"
+            android:textStyle="bold"
+            android:fontFamily=""/>
+
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LOGIN"
+            android:id="@+id/login"
+            android:background="#4A8692"
+            android:padding="15dp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"/>
+
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REGISTER"
+            android:id="@+id/register"
+            android:background="#ac000000"
+            android:padding="15dp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
 
 
 </RelativeLayout>
