@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public abstract class Model {
 
+
     public Model() {
         type = this.getClass().getSimpleName().toLowerCase();
         id = System.currentTimeMillis() + "";

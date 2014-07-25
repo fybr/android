@@ -34,20 +34,10 @@ public class Auth {
         return new Api(session, _context);
     }
 
-    private void setSession(String session) {
+    public void setSession(String session) {
         SharedPreferences.Editor editor = _preferences.edit();
         editor.putString("session", session);
         editor.commit();
-    }
-
-    public Auth login(String email, String password) {
-        this.setSession(new Api("", _context).login(email, password));
-        return this;
-    }
-
-    public Auth register(String email, String password) {
-        this.setSession(new Api("", _context).register(email, password));
-        return this;
     }
 
     public Auth logout() {

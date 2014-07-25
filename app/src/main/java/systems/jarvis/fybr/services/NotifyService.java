@@ -40,6 +40,8 @@ public class NotifyService extends NotificationListenerService {
         model.id = sbn.getId() + "";
         Bundle extras = sbn.getNotification().extras;
         model.extras = new HashMap<String, Object>();
+        model.tag = sbn.getTag();
+        model.name = sbn.getPackageName();
         for(String key : extras.keySet()) {
             model.extras.put(key.replaceAll("android.", ""), extras.get(key));
         }
@@ -64,7 +66,6 @@ public class NotifyService extends NotificationListenerService {
         }
 
         new Auth(this).connect().event(model);
-
     }
 
     @Override
@@ -72,5 +73,18 @@ public class NotifyService extends NotificationListenerService {
         Dismiss model = new Dismiss();
         model.id = sbn.getId() + "";
         new Auth(this).connect().event(model);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        String command = intent.getStringExtra("command");
+        if(command.equals("dismiss")) {
+            String tag = intent.getStringExtra("tag");
+            String name = intent.getStringExtra("name");
+            int id = Integer.parseInt(intent.getStringExtra("id"));
+            this.cancelNotification(name, tag, id);
+        }
+
+        return 0;
     }
 }

@@ -2,6 +2,7 @@ package systems.jarvis.fybr.providers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -27,30 +28,70 @@ public class Api {
         _context = context;
     }
 
-    public String login(String email, String password) {
-        return postSync("users/login", "{ 'email' : '" + email + "', password : '" + password + "'}");
+    public Api(Context context) {
+        _context = context;
     }
 
-    public String register(String email, String password) {
-        return postSync("users", "{ 'email' : '" + email + "', password : '" + password + "'}");
+    public void login(String email, String password, Callback callback) {
+        post("users/login", "{ 'email' : '" + email + "', password : '" + password + "'}", callback);
     }
 
-    public String postSync(String path, String body) {
+    public void register(String email, String password, Callback callback) {
+        post("users", "{ 'email' : '" + email + "', password : '" + password + "'}", callback);
+    }
 
-        try {
-            BasicResponseHandler response = new BasicResponseHandler();
-            DefaultHttpClient client = new DefaultHttpClient();
-            String url = "http://api.fybr.ws/" + path + "?session=" + _session;
-            HttpPost post = new HttpPost(url);
-            post.setEntity(new StringEntity(body));
-            post.setHeader("Accept", "application/json");
-            post.setHeader("Content-type", "application/json");
-            Log.i("Http", url + " - " + body);
-            return response.handleResponse(client.execute(post));
+    public static class Callback {
+
+        public void success(String result) {
+
         }
-        catch (IOException e) {
-            e.printStackTrace();
+
+        public void error() {
+
         }
+
+    }
+
+    public String post(final String path, final String body, final Callback callback) {
+        new AsyncTask() {
+
+            @Override
+            protected Object doInBackground(Object[] params) {
+                try {
+                    BasicResponseHandler response = new BasicResponseHandler();
+                    DefaultHttpClient client = new DefaultHttpClient();
+                    String url = "http://api.fybr.ws/" + path + "?session=" + _session;
+                    HttpPost post = new HttpPost(url);
+                    post.setEntity(new StringEntity(body));
+                    post.setHeader("Accept", "application/json");
+                    post.setHeader("Content-type", "application/json");
+                    Log.i("Http", url + " - " + body);
+                    String result = response.handleResponse(client.execute(post));
+                    if(callback!= null) {
+                        if(result.isEmpty()) {
+                            this.publishProgress(false);
+                        }
+                        else {
+                            this.publishProgress(true, result);
+                        }
+                    }
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                    this.publishProgress(false);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onProgressUpdate(Object[] values) {
+                boolean result = (Boolean)values[0];
+                if(result)
+                    callback.success((String)values[1]);
+                else
+                    callback.error();
+            }
+        }.execute();
         return "";
     }
 
@@ -65,7 +106,7 @@ public class Api {
 
     public <T> void event(List<T> models, String type) {
         Gson gson = new Gson();
-        postSync("users/events/" + type, gson.toJson(models));
+        post("users/events/" + type, gson.toJson(models), null);
     }
 
     public void post(String path, String body) {
