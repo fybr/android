@@ -17,8 +17,8 @@ public class SmsReceiver extends Receiver {
             for (android.telephony.SmsMessage sms : Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
                 Sms model = new Sms();
                 model.message = sms.getDisplayMessageBody();
-                model.from = sms.getOriginatingAddress();
-                model.thread = model.from;
+                model.from = sms.getOriginatingAddress().replaceAll("[\\s\\(\\)\\-]", "").replaceAll("\\+\\d", "");;
+                model.thread = model.from.replaceAll("[\\s\\(\\)\\-]", "").replaceAll("\\+\\d", "");;
                 Api api = new Auth(context).connect();
                 if(api == null) return;
                 api.event(model);

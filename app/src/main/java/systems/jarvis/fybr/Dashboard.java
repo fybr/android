@@ -33,5 +33,10 @@ public class Dashboard extends Base {
                 logout();
             }
         });
+        findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+            }
+        });
     }
 }

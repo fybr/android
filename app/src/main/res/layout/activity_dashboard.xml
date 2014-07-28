@@ -10,19 +10,57 @@
     tools:context="systems.jarvis.fybr.Dashboard">
 
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="DISCONNECT"
-        android:id="@+id/logout"
-        android:layout_marginBottom="15dp"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:background="#00FFFFFF"
-        android:padding="20dp"
-        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:enabled="true" />
+        android:id="@+id/linearLayout">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="106dp"
+            android:id="@+id/logo"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/logo"
+            android:layout_marginBottom="20dp" />
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Check out \n http://hub.fybr.ws\n to see your dashboard"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:gravity="center"
+
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal"
+            android:textSize="18dp" />
+
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ENABLE NOTIFICATIONS"
+            android:id="@+id/notifications"
+            android:background="#4A8692"
+            android:padding="15dp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"/>
+
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SIGN OFF"
+            android:id="@+id/logout"
+            android:background="#ac000000"
+            android:padding="15dp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
 </RelativeLayout>

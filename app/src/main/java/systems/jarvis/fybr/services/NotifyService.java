@@ -21,6 +21,7 @@ import android.view.accessibility.AccessibilityEvent;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
+import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.providers.Auth;
 import systems.jarvis.fybr.providers.Dismiss;
 import systems.jarvis.fybr.providers.Notification;
@@ -64,7 +65,8 @@ public class NotifyService extends NotificationListenerService {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
+        Api api = new Auth(this).connect();
+        if(api == null) return;
         new Auth(this).connect().event(model);
     }
 
@@ -72,6 +74,8 @@ public class NotifyService extends NotificationListenerService {
     public void onNotificationRemoved(StatusBarNotification sbn) {
         Dismiss model = new Dismiss();
         model.id = sbn.getId() + "";
+        Api api = new Auth(this).connect();
+        if(api == null) return;
         new Auth(this).connect().event(model);
     }
 
