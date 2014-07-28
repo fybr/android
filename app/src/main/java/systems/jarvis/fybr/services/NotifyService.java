@@ -77,6 +77,9 @@ public class NotifyService extends NotificationListenerService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if(!intent.hasExtra("command"))
+            return 0;
+
         String command = intent.getStringExtra("command");
         if(command.equals("dismiss")) {
             String tag = intent.getStringExtra("tag");
@@ -87,4 +90,6 @@ public class NotifyService extends NotificationListenerService {
 
         return 0;
     }
+
+
 }

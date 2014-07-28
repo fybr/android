@@ -1,5 +1,7 @@
 package systems.jarvis.fybr.receivers;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,6 +10,8 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.providers.Auth;
@@ -50,6 +54,14 @@ public class Boot extends Receiver {
                     return "";
                 }
             }.execute(null, null, null);
+        }
+
+        {
+            Intent intent = new Intent(context, AlarmReceiver.class);
+            PendingIntent pending = PendingIntent.getBroadcast(context, 0, intent, 0);
+            AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+            long frequency= 24*60*60*1000;
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), frequency, pending);
         }
 
     }

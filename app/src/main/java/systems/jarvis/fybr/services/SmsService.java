@@ -17,6 +17,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 
 import java.util.Date;
+import java.util.HashSet;
 
 import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.providers.Auth;
@@ -36,20 +37,20 @@ public class SmsService extends Service {
         final Context service = this;
         contentResolver.registerContentObserver(Uri.parse("content://sms"),true, new ContentObserver(new Handler()) {
 
-            private String _last = getLast().id;
+            private HashSet<String> _handled = new HashSet<String>();
 
             private Sms getLast() {
                 Cursor cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
                 if(!cursor.moveToNext()) return null;
+                int idColumn = cursor.getColumnIndex("_id");
+                String id =  cursor.getString(idColumn);
+                System.out.println(id);
+                if(!_handled.add(id))
+                    return null;
                 int dateColumn = cursor.getColumnIndex("date");
                 int bodyColumn = cursor.getColumnIndex("body");
                 int addressColumn = cursor.getColumnIndex("address");
                 int threadColumn = cursor.getColumnIndex("thread_id");
-                int idColumn = cursor.getColumnIndex("_id");
-                String id =  cursor.getString(idColumn);
-                if(id.equals(_last))
-                    return null;
-                _last = id;
                 Sms model = new Sms();
                 model.message = cursor.getString(bodyColumn);
                 model.from = "me";
@@ -75,7 +76,7 @@ public class SmsService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return 0;
+        return Service.START_STICKY;
     }
 
 }
