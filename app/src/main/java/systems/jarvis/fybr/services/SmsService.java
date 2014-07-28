@@ -26,6 +26,8 @@ import systems.jarvis.fybr.providers.Sms;
 
 public class SmsService extends Service {
 
+    private HashSet<String> _handled;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -33,20 +35,19 @@ public class SmsService extends Service {
 
     @Override
     public void onCreate() {
+        _handled = new HashSet<String>();
         ContentResolver contentResolver = this.getContentResolver();
         final Context service = this;
         contentResolver.registerContentObserver(Uri.parse("content://sms"),true, new ContentObserver(new Handler()) {
 
-            private HashSet<String> _handled = new HashSet<String>();
-
-            private Sms getLast() {
-                Cursor cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
+            private Sms getLast(Cursor cursor) {
                 if(!cursor.moveToNext()) return null;
                 int idColumn = cursor.getColumnIndex("_id");
                 String id =  cursor.getString(idColumn);
-                System.out.println(id);
+                System.out.println("Checking: " + id);
                 if(!_handled.add(id))
                     return null;
+                System.out.println("New: " + id);
                 int dateColumn = cursor.getColumnIndex("date");
                 int bodyColumn = cursor.getColumnIndex("body");
                 int addressColumn = cursor.getColumnIndex("address");
@@ -60,7 +61,9 @@ public class SmsService extends Service {
 
             @Override
             public void onChange(boolean selfChange, Uri uri) {
-                Sms model = getLast();
+                Cursor cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
+                Sms model = getLast(cursor);
+                cursor.close();
                 if(model == null) return;
                 Api api = new Auth(service).connect();
                 if(api == null) return;
