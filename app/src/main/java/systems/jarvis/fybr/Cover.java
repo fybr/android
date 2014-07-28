@@ -54,7 +54,7 @@ public class Cover extends Activity {
         findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final Auth auth = new Auth(dis);
-                new Api(dis).login(email.getText().toString(), password.getText().toString(), new Api.Callback() {
+                new Api(dis).register(email.getText().toString(), password.getText().toString(), new Api.Callback() {
                     @Override
                     public void success(String result) {
                         auth.setSession(result);
