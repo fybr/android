@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -62,6 +63,12 @@ public class Boot extends Receiver {
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             long frequency= 24*60*60*1000;
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), frequency, pending);
+        }
+
+        {
+            IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+            BatteryReceiver receiver = new BatteryReceiver();
+            context.registerReceiver(receiver, filter);
         }
 
     }

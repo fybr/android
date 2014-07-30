@@ -32,6 +32,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".receivers.BatteryReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_CHANGED" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name=".receivers.PushReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
@@ -53,10 +58,6 @@
         <service android:name=".services.PostService" />
         <service
             android:name=".services.SmsService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
-            android:name=".services.PushService"
             android:enabled="true"
             android:exported="true" />
         <service

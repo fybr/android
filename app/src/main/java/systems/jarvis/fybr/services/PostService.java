@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 
 import java.io.IOException;
 
@@ -31,7 +32,7 @@ public class PostService extends IntentService {
             DefaultHttpClient client = new DefaultHttpClient();
             String url = "http://api.fybr.ws/" + path + "?session=" + session;
             HttpPost post = new HttpPost(url);
-            post.setEntity(new StringEntity(body));
+            post.setEntity(new StringEntity(body, HTTP.UTF_8));
             post.setHeader("Accept", "application/json");
             post.setHeader("Content-type", "application/json");
             Log.i("Http", url + " - " + body);

@@ -44,10 +44,8 @@ public class SmsService extends Service {
                 if(!cursor.moveToNext()) return null;
                 int idColumn = cursor.getColumnIndex("_id");
                 String id =  cursor.getString(idColumn);
-                System.out.println("Checking: " + id);
                 if(!_handled.add(id))
                     return null;
-                System.out.println("New: " + id);
                 int dateColumn = cursor.getColumnIndex("date");
                 int bodyColumn = cursor.getColumnIndex("body");
                 int addressColumn = cursor.getColumnIndex("address");

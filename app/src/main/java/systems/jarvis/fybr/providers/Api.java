@@ -52,7 +52,7 @@ public class Api {
 
     }
 
-    public String post(final String path, final String body, final Callback callback) {
+    public void post(final String path, final String body, final Callback callback) {
         new AsyncTask() {
 
             @Override
@@ -67,14 +67,12 @@ public class Api {
                     post.setHeader("Content-type", "application/json");
                     Log.i("Http", url + " - " + body);
                     String result = response.handleResponse(client.execute(post));
-                    if(callback!= null) {
                         if(result.isEmpty()) {
                             this.publishProgress(false);
                         }
                         else {
                             this.publishProgress(true, result);
                         }
-                    }
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -85,6 +83,7 @@ public class Api {
 
             @Override
             protected void onProgressUpdate(Object[] values) {
+                if(callback == null) return;
                 boolean result = (Boolean)values[0];
                 if(result)
                     callback.success((String)values[1]);
@@ -92,7 +91,6 @@ public class Api {
                     callback.error();
             }
         }.execute();
-        return "";
     }
 
     public void event(Model model) {
@@ -117,4 +115,5 @@ public class Api {
         i.putExtra("session", _session);
         _context.startService(i);
     }
+
 }
