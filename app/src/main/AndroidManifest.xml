@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="systems.jarvis.fybr">
+    package="systems.jarvis.fybr" >
 
     <application
         android:allowBackup="true"
@@ -33,9 +33,6 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".receivers.BatteryReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.BATTERY_CHANGED" />
-            </intent-filter>
         </receiver>
         <receiver
             android:name=".receivers.PushReceiver"
@@ -55,13 +52,9 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-        <service android:name=".services.PostService" />
+
         <service
-            android:name=".services.SmsService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
-            android:name=".services.ContactService"
+            android:name=".services.SyncService"
             android:enabled="true"
             android:exported="true" />
 
@@ -74,6 +67,12 @@
             android:enabled="true"
             android:exported="true" >
         </receiver>
+
+        <service
+            android:name=".services.SyncService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />

@@ -1,14 +1,11 @@
-package systems.jarvis.fybr.services;
+package systems.jarvis.fybr.services.sync;
 
-import android.app.IntentService;
-import android.app.Service;
 import android.content.ContentResolver;
-import android.content.Intent;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.IBinder;
 import android.provider.ContactsContract;
 import android.util.Base64;
 import android.util.Log;
@@ -23,20 +20,15 @@ import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.providers.Auth;
 import systems.jarvis.fybr.providers.Contact;
 
-public class ContactService extends IntentService {
-
-    public ContactService() {
-        super("Contacts");
-    }
-
+public class ContactSync implements ISync {
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void register(Context context) {
 
         Log.i("Service", "Contacts syncing");
-        ContentResolver cr = getContentResolver();
+        ContentResolver cr = context.getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         List<Contact> contacts = new ArrayList<Contact>();
-        Api api = new Auth(this).connect();
+        Api api = new Auth(context).connect();
         while (cur.moveToNext()) {
             Contact contact = new Contact();
             contact.id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
@@ -45,7 +37,7 @@ public class ContactService extends IntentService {
             if (uri != null) {
                 InputStream input = null;
                 try {
-                    input = this.getContentResolver().openInputStream(Uri.parse(uri));
+                    input = context.getContentResolver().openInputStream(Uri.parse(uri));
                     if (input != null) {
                         Bitmap bmp = BitmapFactory.decodeStream(input);
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -72,10 +64,7 @@ public class ContactService extends IntentService {
                 pCur.close();
             }
         }
-
-        api.event(contacts, "contact");
-
-
+        cur.close();
+        api.event(contacts, "contact") ;
     }
-
 }

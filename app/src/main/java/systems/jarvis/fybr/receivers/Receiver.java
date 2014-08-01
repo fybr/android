@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 
 import systems.jarvis.fybr.providers.Auth;
 import systems.jarvis.fybr.providers.Model;
-import systems.jarvis.fybr.services.PostService;
 
 public abstract class Receiver extends BroadcastReceiver {
 

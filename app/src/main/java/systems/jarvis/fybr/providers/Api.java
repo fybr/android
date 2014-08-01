@@ -7,6 +7,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.apache.http.HttpException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -14,9 +17,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import systems.jarvis.fybr.services.PostService;
 
 public class Api {
 
@@ -67,17 +70,16 @@ public class Api {
                     post.setHeader("Content-type", "application/json");
                     Log.i("Http", url + " - " + body);
                     String result = response.handleResponse(client.execute(post));
-                        if(result.isEmpty()) {
-                            this.publishProgress(false);
-                        }
-                        else {
-                            this.publishProgress(true, result);
-                        }
-                }
-                catch (IOException e) {
+                    if (result.isEmpty()) {
+                        this.publishProgress(false);
+                    } else {
+                        this.publishProgress(true, result);
+                    }
+                    return null;
+                } catch (IOException e) {
                     e.printStackTrace();
-                    this.publishProgress(false);
                 }
+                this.publishProgress(false);
                 return null;
             }
 
@@ -95,25 +97,12 @@ public class Api {
 
     public void event(Model model) {
         Gson gson = new Gson();
-        Intent i = new Intent(_context, PostService.class);
-        i.putExtra("body", gson.toJson(model));
-        i.putExtra("path", "users/events/" + model.type + "/" + model.id);
-        i.putExtra("session", _session);
-        _context.startService(i);
+        this.post("users/events/" + model.type + "/" + model.id, gson.toJson(model), null);
     }
 
     public <T> void event(List<T> models, String type) {
         Gson gson = new Gson();
         post("users/events/" + type, gson.toJson(models), null);
-    }
-
-    public void post(String path, String body) {
-        Gson gson = new Gson();
-        Intent i = new Intent(_context, PostService.class);
-        i.putExtra("body", body);
-        i.putExtra("path", path);
-        i.putExtra("session", _session);
-        _context.startService(i);
     }
 
 }

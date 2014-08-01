@@ -8,8 +8,8 @@ android {
         applicationId "systems.jarvis.fybr"
         minSdkVersion 18
         targetSdkVersion 20
-        versionCode 5
-        versionName "1.05"
+        versionCode 6
+        versionName "1.06"
     }
     buildTypes {
         release {

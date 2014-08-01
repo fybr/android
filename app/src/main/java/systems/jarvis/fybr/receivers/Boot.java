@@ -11,13 +11,11 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 
 import systems.jarvis.fybr.providers.Api;
 import systems.jarvis.fybr.providers.Auth;
-import systems.jarvis.fybr.services.ContactService;
-import systems.jarvis.fybr.services.SmsService;
+import systems.jarvis.fybr.services.SyncService;
+import systems.jarvis.fybr.services.sync.SmsSync;
 
 public class Boot extends Receiver {
 
@@ -29,12 +27,7 @@ public class Boot extends Receiver {
     public static void StartServices(final Context context) {
 
         {
-            Intent i = new Intent(context, ContactService.class);
-            context.startService(i);
-        }
-
-        {
-            Intent i = new Intent(context, SmsService.class);
+            Intent i = new Intent(context, SyncService.class);
             context.startService(i);
         }
 
@@ -48,7 +41,7 @@ public class Boot extends Receiver {
                     try {
                         String id = gcm.register("487325715729");
                         Log.i("Push", id);
-                        api.post("users/devices", id);
+                        api.post("users/devices", id, null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -63,12 +56,6 @@ public class Boot extends Receiver {
             AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
             long frequency= 24*60*60*1000;
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), frequency, pending);
-        }
-
-        {
-            IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-            BatteryReceiver receiver = new BatteryReceiver();
-            context.registerReceiver(receiver, filter);
         }
 
     }
