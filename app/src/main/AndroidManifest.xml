@@ -32,8 +32,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receivers.BatteryReceiver" >
-        </receiver>
         <receiver
             android:name=".receivers.PushReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
